@@ -5,12 +5,14 @@
  * @package SteveGrunwell\WPEncryptedOptions
  */
 
+namespace WPEncryptedOptions\Tests;
+
 use WPEncryptedOptions\Encryption as Encryption;
 
 /**
  * Encryption tests.
  */
-class EncryptionTest extends WP_UnitTestCase {
+class EncryptionTest extends TestCase {
 
 	/**
 	 * @dataProvider value_provider()

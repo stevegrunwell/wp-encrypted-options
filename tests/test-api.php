@@ -5,10 +5,12 @@
  * @package SteveGrunwell\WPEncryptedOptions
  */
 
+namespace WPEncryptedOptions\Tests;
+
 /**
  * Public API tests.
  */
-class ApiTest extends WP_UnitTestCase {
+class ApiTest extends TestCase {
 
 	/**
 	 * Clean up after our tests by removing the test options.
