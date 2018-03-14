@@ -5,10 +5,12 @@
  * @package SteveGrunwell\WPEncryptedOptions
  */
 
+namespace WPEncryptedOptions\Tests;
+
 /**
  * Sample test case.
  */
-class SampleTest extends WP_UnitTestCase {
+class SampleTest extends TestCase {
 
 	/**
 	 * A single example test.

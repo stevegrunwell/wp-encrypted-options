@@ -10,6 +10,10 @@
  * @package SteveGrunwell\WPEncryptedOptions
  */
 
+use WPEncryptedOptions\Encryption;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
 if ( ! function_exists( 'add_encrypted_option' ) ) :
 	/**
 	 * Add a new encrypted option.
@@ -27,6 +31,8 @@ if ( ! function_exists( 'add_encrypted_option' ) ) :
 	 * @return bool False if option was not added and true if option was added.
 	 */
 	function add_encrypted_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
+		$value = Encryption::get_instance()->encrypt( $value );
+
 		return add_option( $option, $value, $deprecated, $autoload );
 	}
 endif;
@@ -43,6 +49,8 @@ if ( ! function_exists( 'add_encrypted_site_option' ) ) :
 	 * @return bool False if the option was not added. True if the option was added.
 	 */
 	function add_encrypted_site_option( $option, $value ) {
+		$value = Encryption::get_instance()->encrypt( $value );
+
 		return add_site_option( $option, $value );
 	}
 endif;
@@ -60,7 +68,9 @@ if ( ! function_exists( 'get_encrypted_option' ) ) :
 	 * @return mixed Value set for the option.
 	 */
 	function get_encrypted_option( $option, $default = '' ) {
-		return get_option( $option, $default );
+		$value = get_option( $option, $default );
+
+		return $value === $default ? $default : Encryption::get_instance()->decrypt( $value );
 	}
 endif;
 
@@ -77,7 +87,9 @@ if ( ! function_exists( 'get_encrypted_site_option' ) ) :
 	 * @return mixed Value set for the option.
 	 */
 	function get_encrypted_site_option( $option, $default = '' ) {
-		return get_site_option( $option, $default );
+		$value = get_site_option( $option, $default );
+
+		return $value === $default ? $default : Encryption::get_instance()->decrypt( $value );
 	}
 endif;
 
@@ -99,6 +111,8 @@ if ( ! function_exists( 'update_encrypted_option' ) ) :
 	 * @return bool False if value was not updated and true if value was updated.
 	 */
 	function update_encrypted_option( $option, $value = '', $autoload = 'yes' ) {
+		$value = Encryption::get_instance()->encrypt( $value );
+
 		return update_option( $option, $value, $autoload );
 	}
 endif;
@@ -116,13 +130,15 @@ if ( ! function_exists( 'update_encrypted_site_option' ) ) :
 	 * @return bool False if value was not updated. True if value was updated.
 	 */
 	function update_encrypted_site_option( $option, $value = '' ) {
+		$value = Encryption::get_instance()->encrypt( $value );
+
 		return update_site_option( $option, $value );
 	}
 endif;
 
 if ( ! function_exists( 'delete_encrypted_option' ) ) :
 	/**
-	 * Removes option by name. Prevents removal of protected WordPress options.
+	 * Removes an encrypted option by name. Prevents removal of protected WordPress options.
 	 *
 	 * @see delete_option()
 	 *
@@ -137,7 +153,7 @@ endif;
 
 if ( ! function_exists( 'delete_encrypted_site_option' ) ) :
 	/**
-	 * Removes a option by name for the current network.
+	 * Removes an encrypted option by name for the current network.
 	 *
 	 * @see delete_site_option()
 	 *
