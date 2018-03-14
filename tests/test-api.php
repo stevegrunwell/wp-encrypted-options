@@ -11,8 +11,6 @@
 class ApiTest extends WP_UnitTestCase {
 
 	public function test_add_encrypted_option() {
-		$this->markTestSkipped( 'The encryption layer has not yet been implemented' );
-
 		$value = uniqid();
 
 		$this->assertTrue( add_encrypted_option( 'option-name', $value ) );
@@ -24,8 +22,6 @@ class ApiTest extends WP_UnitTestCase {
 	}
 
 	public function test_add_encrypted_site_option() {
-		$this->markTestSkipped( 'The encryption layer has not yet been implemented' );
-
 		$value = uniqid();
 
 		$this->assertTrue( add_encrypted_site_option( 'option-name', $value ) );
@@ -40,12 +36,26 @@ class ApiTest extends WP_UnitTestCase {
 		$value = uniqid();
 		add_encrypted_option( 'option-name', $value );
 
+		$this->assertEquals( $value, get_encrypted_option( 'option-name' ) );
+	}
+
+	public function test_get_encrypted_option_handles_defaults() {
+		$value = uniqid();
+		delete_encrypted_option( 'option-name' );
+
 		$this->assertEquals( $value, get_encrypted_option( 'option-name', $value ) );
 	}
 
 	public function test_get_encrypted_site_option() {
 		$value = uniqid();
 		add_encrypted_site_option( 'option-name', $value );
+
+		$this->assertEquals( $value, get_encrypted_site_option( 'option-name' ) );
+	}
+
+	public function test_get_encrypted_site_option_handles_defaults() {
+		$value = uniqid();
+		delete_encrypted_site_option( 'option-name' );
 
 		$this->assertEquals( $value, get_encrypted_site_option( 'option-name', $value ) );
 	}
