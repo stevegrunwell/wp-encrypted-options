@@ -10,6 +10,8 @@
  * @package SteveGrunwell\WPEncryptedOptions
  */
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 if ( ! function_exists( 'add_encrypted_option' ) ) :
 	/**
 	 * Add a new encrypted option.
