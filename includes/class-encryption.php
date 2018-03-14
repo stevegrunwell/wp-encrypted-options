@@ -51,7 +51,7 @@ class Encryption {
 	 */
 	public static function get_instance() {
 		if ( ! self::$instance ) {
-			$class = __CLASS__;
+			$class          = __CLASS__;
 			self::$instance = new $class();
 		}
 

@@ -32,7 +32,7 @@ class EncryptionTest extends TestCase {
 	 */
 	public function test_decrypt( $value ) {
 		$encryption = Encryption::get_instance();
-		$encrypted = $encryption->encrypt( $value );
+		$encrypted  = $encryption->encrypt( $value );
 
 		$this->assertSame(
 			$value,
@@ -52,7 +52,14 @@ class EncryptionTest extends TestCase {
 			'An integer'      => [ 123 ],
 			'A float value'   => [ 123.456 ],
 			'An simple array' => [ [ 'foo', 'bar', 'baz' ] ],
-			'A complex array' => [ [ 'foo' => uniqid(), 'bar' => [ 'baz' => 'val' ] ] ],
+			'A complex array' => [
+				[
+					'foo' => uniqid(),
+					'bar' => [
+						'baz' => 'val',
+					],
+				],
+			],
 		];
 	}
 

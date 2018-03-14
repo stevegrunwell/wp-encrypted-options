@@ -27,7 +27,7 @@ function _manually_load_plugin() {
 
 	if ( ! defined( 'WP_ENCRYPTED_OPTIONS_KEY' ) ) {
 		$key = Defuse\Crypto\Key::createNewRandomKey();
-		define('WP_ENCRYPTED_OPTIONS_KEY', $key->saveToAsciiSafeString() );
+		define( 'WP_ENCRYPTED_OPTIONS_KEY', $key->saveToAsciiSafeString() );
 	}
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
