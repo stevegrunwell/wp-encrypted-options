@@ -11,6 +11,7 @@ use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
 use Defuse\Crypto\Key;
+use WPEncryptedOptions\Exceptions\EncryptedOptionException;
 
 class Encryption {
 
@@ -87,7 +88,11 @@ class Encryption {
 		} catch ( EnvironmentIsBrokenException $e ) {
 			throw $e;
 		} catch ( WrongKeyOrModifiedCiphertextException $e ) {
-			throw $e;
+			throw new EncryptedOptionException(
+				__( 'Unable to decrypt option value.', 'wp-encrypted-options' ),
+				$e->getCode(),
+				$e
+			);
 		}
 
 		return unserialize( $decrypted );
@@ -103,7 +108,7 @@ class Encryption {
 			return $this->encryption_key;
 		}
 
-		$this->encryption_key = Key::createNewRandomKey();
+		$this->encryption_key = Key::loadFromAsciiSafeString( WP_ENCRYPTED_OPTIONS_KEY );
 
 		return $this->encryption_key;
 	}

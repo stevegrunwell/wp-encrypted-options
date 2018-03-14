@@ -7,7 +7,10 @@
 
 namespace WPEncryptedOptions\Tests;
 
+use Defuse\Crypto\Key;
+use ReflectionProperty;
 use WPEncryptedOptions\Encryption as Encryption;
+use WPEncryptedOptions\Exceptions\EncryptedOptionException;
 
 /**
  * Encryption tests.
@@ -51,5 +54,17 @@ class EncryptionTest extends TestCase {
 			'An simple array' => [ [ 'foo', 'bar', 'baz' ] ],
 			'A complex array' => [ [ 'foo' => uniqid(), 'bar' => [ 'baz' => 'val' ] ] ],
 		];
+	}
+
+	public function test_decrypt_if_the_key_has_changed() {
+		$encryption = Encryption::get_instance();
+		$encrypted  = $encryption->encrypt( 'some data' );
+		$property   = new ReflectionProperty( $encryption, 'encryption_key' );
+		$property->setAccessible( true );
+		$property->setValue( $encryption, Key::createNewRandomKey() );
+
+		$this->expectException( EncryptedOptionException::class );
+
+		$encryption->decrypt( $encrypted );
 	}
 }
