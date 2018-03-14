@@ -14,6 +14,8 @@ matrix:
   include:
     - php: 7.2
       env: WP_VERSION=trunk
+    - php: 7.2
+      env: WP_VERSION=latest RUN_PHPCS=1 RUN_CODE_COVERAGE=1
     - php: 7.1
       env: WP_VERSION=latest
     - php: 7.0
