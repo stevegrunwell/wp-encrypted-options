@@ -10,6 +10,16 @@
  */
 class ApiTest extends WP_UnitTestCase {
 
+	/**
+	 * Clean up after our tests by removing the test options.
+	 *
+	 * @after
+	 */
+	public function delete_test_options() {
+		delete_option( 'option-name' );
+		delete_site_option( 'option-name' );
+	}
+
 	public function test_add_encrypted_option() {
 		$value = uniqid();
 
@@ -41,7 +51,6 @@ class ApiTest extends WP_UnitTestCase {
 
 	public function test_get_encrypted_option_handles_defaults() {
 		$value = uniqid();
-		delete_encrypted_option( 'option-name' );
 
 		$this->assertEquals( $value, get_encrypted_option( 'option-name', $value ) );
 	}
@@ -55,7 +64,6 @@ class ApiTest extends WP_UnitTestCase {
 
 	public function test_get_encrypted_site_option_handles_defaults() {
 		$value = uniqid();
-		delete_encrypted_site_option( 'option-name' );
 
 		$this->assertEquals( $value, get_encrypted_site_option( 'option-name', $value ) );
 	}
